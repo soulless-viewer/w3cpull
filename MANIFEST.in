@@ -1,0 +1,4 @@
+include LICENSE
+include w3cpull/chromedriver
+include w3cpull/geckodriver
+include w3cpull/mime-types.txt
