@@ -1,18 +1,11 @@
 from setuptools import setup, find_packages
 
-readme = None
 with open('README.md', encoding='utf-8') as f:
     readme = f.read()
-f.close()
-
-requirements = None
-with open('requirements.txt', encoding='utf-8') as f:
-    requirements = f.read().splitlines()
-f.close()
 
 setup(
     name="w3cpull",
-    version="1.0.0",
+    version="1.0.1",
     author="Mikalai Lisitsa",
     author_email="Mikalai.Lisitsa@ibm.com",
     url="https://github.com/soulless-viewer/w3cpull",
@@ -22,7 +15,12 @@ setup(
     keywords='w3connections w3c ibm',
     license='MIT',
     packages=find_packages(),
-    install_requires=requirements,
+    install_requires=[
+        "docopt == 0.6.2",
+        "requests == 2.22.0",
+        "schema == 0.7.2",
+        "selenium == 3.141.0",
+    ],
     include_package_data=True,
     python_requires='>=3.6',
     scripts=['bin/w3cpull'],
