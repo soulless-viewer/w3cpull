@@ -23,7 +23,7 @@ Usage:
 
 Options:
     --community-url=COMMUNITY_URL   Set the URL of the target community
-    --target-dir=TARGET_DIR_PATH    Set the path to the directory where the content will be saved (by default, the content is deleted after completion)
+    --target-dir=TARGET_DIR_PATH    Set the path to the directory where the content will be saved
     --temp-dir=TEMP_DIR_PATH        Set the path to the folder where the content will be temporarily stored and processed (by default, /tmp)
     --w3id-auth=W3ID_AUTH           Set the uername:password value for automatic authentication
     --browser=BROWSER               Set the name of the browser to use (by default, Firefox)
