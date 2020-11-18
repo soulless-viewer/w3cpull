@@ -59,11 +59,21 @@ def hash_path(location):
 
 def validate_args(args):
     schema = Schema({
-        '--community-url': Or(None, Regex(r'^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?!&//=]*)$'), error='The URL has an incorrect format'),
-        '--target-dir': Or(None, Use(lambda d: os.listdir(d)), error = 'The target path does not exist or cannot be accessed'),
-        '--temp-dir': Or(None, Use(lambda d: os.listdir(d)), error = 'The temporarily path does not exist or cannot be accessed'),
-        '--w3id-auth': Or(None, Regex(r'^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}\:.+$'), error = 'The credentials for W3ID are in the wrong format'),
-        '--browser': Or(None, Use(lambda b: (b.lower() == 'chrome' or b.lower() == 'firefox')), error='Specified browser not supported. Use Chrome or Firefox'),
+        '--community-url': Or(None,
+            Regex(r'^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?!&//=]*)$'),
+            error='The URL has an incorrect format'),
+        '--target-dir': Or(None,
+            Use(lambda d: (os.path.exists(d) and os.listdir(d)) or (os.path.exists(os.path.expanduser(d)) and os.listdir(os.path.expanduser(d)))),
+            error = 'The target path does not exist or cannot be accessed'),
+        '--temp-dir': Or(None,
+            Use(lambda d: os.listdir(d)),
+            error = 'The temporarily path does not exist or cannot be accessed'),
+        '--w3id-auth': Or(None,
+            Regex(r'^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}\:.+$'),
+            error = 'The credentials for W3ID are in the wrong format'),
+        '--browser': Or(None,
+            Use(lambda b: (b.lower() == 'chrome' or b.lower() == 'firefox')),
+            error='Specified browser not supported. Use Chrome or Firefox'),
         '--recursive': Or(True, False),
         '--visual': Or(True, False),
         '--help': Or(True, False),
@@ -120,7 +130,7 @@ def download(community_url, target_dir, temp_dir, w3id_auth, recursive, visual, 
         log.info("Step 3/3 : Downloading community content")
         down.download_community(driver, communities_fs_mapping, TEMP_DOWNLOAD_DIR)
         if not target_dir == None:
-            target_dir = os.path.abspath(target_dir)
+            target_dir = (os.path.abspath(target_dir) if not target_dir[0] == '~' else os.path.expanduser(target_dir))
             try:
                 content_dir = down.move_content(TEMP_TARGET_DIR, target_dir)[0]
                 log.info("--- The structure and content of the community now in the {}".format(content_dir))

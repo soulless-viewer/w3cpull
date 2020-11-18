@@ -1,6 +1,7 @@
 from selenium.common.exceptions import (
     TimeoutException,
     ElementNotInteractableException,
+    ElementClickInterceptedException,
     NoSuchElementException,
 )
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
@@ -135,7 +136,7 @@ def wait_wiki_page_load(driver):
 def clickw(driver, el):
     try:
         el.click()
-    except ElementNotInteractableException:
+    except (ElementNotInteractableException, ElementClickInterceptedException):
         driver.execute_script("arguments[0].click();", el)
 
 
@@ -197,6 +198,23 @@ def create_fs_tree(root_path, communities_tree):
 
 def move_content(src, dst):
     moved = []
+    while True:
+        files = glob.glob('{}/*'.format(os.path.abspath(src)))
+        if len(files) == 0:
+            time.sleep(1)
+            continue
+
+        done = True
+        for file in files:
+            if file.endswith('.crdownload'):
+                done = False
+                break
+        if done:
+            break
+        else:
+            time.sleep(1)
+            continue
+
     for item in glob.glob('{}/*'.format(os.path.abspath(src))):
         moved.append(shutil.move(item, os.path.abspath(dst)))
 
@@ -215,8 +233,9 @@ def download_to_dir(url, path):
 
 def download_wiki(driver, wiki_name, wiki_path, wiki_links_path, wiki_attachments_path, selenium_temp_download_dir):
     # Download Wiki
-    el = driver.find_element_by_xpath('//a[contains(text(), "Page Actions")]')
-    driver.execute_script("arguments[0].click();", el)
+    clickw(
+        driver, driver.find_element_by_xpath('//a[contains(text(), "Page Actions")]')
+    )
     clickw(
         driver, driver.find_element_by_xpath('//td[contains(text(), "Download Page")]')
     )
