@@ -72,7 +72,7 @@ def validate_args(args):
             Regex(r'^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}\:.+$'),
             error = 'The credentials for W3ID are in the wrong format'),
         '--browser': Or(None,
-            Use(lambda b: (b.lower() == 'chrome' or b.lower() == 'firefox')),
+            Regex(r'^((C|c)hrome|(F|f)irefox)$'),
             error='Specified browser not supported. Use Chrome or Firefox'),
         '--recursive': Or(True, False),
         '--visual': Or(True, False),
