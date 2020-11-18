@@ -5,7 +5,7 @@ with open('README.md', encoding='utf-8') as f:
 
 setup(
     name="w3cpull",
-    version="1.0.2",
+    version="1.0.3",
     author="Mikalai Lisitsa",
     author_email="Mikalai.Lisitsa@ibm.com",
     url="https://github.com/soulless-viewer/w3cpull",

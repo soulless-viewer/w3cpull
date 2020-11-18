@@ -151,7 +151,7 @@ def download(community_url, target_dir, temp_dir, w3id_auth, recursive, visual, 
 
 
 def main():
-    args = docopt(__doc__, version='1.0.2')
+    args = docopt(__doc__, version='1.0.3')
 
     if validate_args(args):
         if not args['--temp-dir'] == None:
