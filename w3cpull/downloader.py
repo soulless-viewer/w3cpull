@@ -17,6 +17,7 @@ from datetime import (
 from selenium import webdriver
 import logging as log
 import urllib.parse
+import platform
 import threading
 import requests
 import hashlib
@@ -59,7 +60,12 @@ def chrome_init(module_dir, selenium_temp_download_dir, visual):
     if not visual:
         profile.add_argument("--headless")
 
-    return webdriver.Chrome(executable_path = os.path.join(module_dir, 'chromedriver'), chrome_options=profile)
+    sys_case = {
+        "Linux": "chromedriver_linux",
+        "Darwin": "chromedriver_darwin"
+    }
+
+    return webdriver.Chrome(executable_path = os.path.join(module_dir, sys_case[platform.system()]), chrome_options=profile)
 
 
 def firefox_init(module_dir, selenium_temp_download_dir, visual):
@@ -75,12 +81,17 @@ def firefox_init(module_dir, selenium_temp_download_dir, visual):
         profile.set_preference("browser.helperApps.neverAsk.saveToDisk", mime.read())
         mime.close()
 
+    sys_case = {
+        "Linux": "geckodriver_linux",
+        "Darwin": "geckodriver_darwin"
+    }
+
     if not visual:
         options = Options()
         options.headless = True
-        return webdriver.Firefox(profile, executable_path = os.path.join(module_dir, "geckodriver"), options=options)
+        return webdriver.Firefox(profile, executable_path = os.path.join(module_dir, sys_case[platform.system()]), options=options)
     else:
-        return webdriver.Firefox(profile, executable_path = os.path.join(module_dir, "geckodriver"))
+        return webdriver.Firefox(profile, executable_path = os.path.join(module_dir, sys_case[platform.system()]))
 
 
 def check_if_url_accessible(url):

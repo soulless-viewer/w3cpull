@@ -1,4 +1,6 @@
 include LICENSE
-include w3cpull/chromedriver
-include w3cpull/geckodriver
+include w3cpull/chromedriver_linux
+include w3cpull/chromedriver_darwin
+include w3cpull/geckodriver_linux
+include w3cpull/geckodriver_darwin
 include w3cpull/mime-types.txt
