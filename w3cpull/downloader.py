@@ -48,6 +48,7 @@ def init(module_dir, selenium_target_dir, selenium_temp_download_dir, visual, br
     browser_init = browser_case[browser]
     return browser_init(module_dir, selenium_temp_download_dir, visual)
 
+
 def chrome_init(module_dir, selenium_temp_download_dir, visual):
     profile = webdriver.ChromeOptions()
     profile.add_experimental_option("prefs",{
@@ -81,12 +82,14 @@ def firefox_init(module_dir, selenium_temp_download_dir, visual):
     else:
         return webdriver.Firefox(profile, executable_path = os.path.join(module_dir, "geckodriver"))
 
+
 def check_if_url_accessible(url):
     try:
         response = requests.get(url)
         return True
     except requests.ConnectionError as exception:
         return False
+
 
 def w3id_auth(driver, w3id_login = None, w3id_password = None):
     if (w3id_login == None or w3id_password == None):
@@ -108,6 +111,7 @@ def w3id_auth(driver, w3id_login = None, w3id_password = None):
         password.send_keys(w3id_password)
         clickw(driver, driver.find_element_by_id("btn_signin"))
 
+
 def create_download_thread(url, path):
     r = requests.get(url, stream=True, allow_redirects=True)
     with open(
@@ -117,6 +121,7 @@ def create_download_thread(url, path):
             for chunk in r.iter_content(1024):
                 if chunk:
                     f.write(chunk)
+
 
 def download_file(url, path):
     global DOWNLOAD_THREADS
@@ -128,6 +133,7 @@ def download_file(url, path):
 
 def wait_community_page_load(driver):
     ui.WebDriverWait(driver, 30).until(EC.title_contains("Overview"))
+
 
 def wait_wiki_page_load(driver):
     ui.WebDriverWait(driver, 30).until(EC.title_contains("Wiki"))
@@ -313,7 +319,6 @@ def download_community(driver, tree, selenium_temp_download_dir):
 
     for t in DOWNLOAD_THREADS:
         t.join()
-
 
 
 def create_communities_tree(driver, community_url, recursive, w3id_login = None, w3id_password = None):

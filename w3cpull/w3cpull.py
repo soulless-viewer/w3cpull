@@ -19,8 +19,9 @@ Options:
 '''
 
 from schema import Schema, And, Or, Use, Optional, Regex, SchemaError
-from docopt import docopt
 from w3cpull import downloader as down
+from w3cpull import modifier as mod
+from docopt import docopt
 import logging as log
 import datetime
 import hashlib
@@ -129,6 +130,8 @@ def download(community_url, target_dir, temp_dir, w3id_auth, recursive, visual, 
 
         log.info("Step 3/3 : Downloading community content")
         down.download_community(driver, communities_fs_mapping, TEMP_DOWNLOAD_DIR)
+        mod.replace_links(TEMP_TARGET_DIR)
+
         if not target_dir == None:
             target_dir = (os.path.abspath(target_dir) if not target_dir[0] == '~' else os.path.expanduser(target_dir))
             try:
@@ -151,7 +154,7 @@ def download(community_url, target_dir, temp_dir, w3id_auth, recursive, visual, 
 
 
 def main():
-    args = docopt(__doc__, version='1.0.3')
+    args = docopt(__doc__, version='1.1.0')
 
     if validate_args(args):
         if not args['--temp-dir'] == None:

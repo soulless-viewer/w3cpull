@@ -1,17 +1,42 @@
-# W3Cpull Application
+# w3cpull
+
+**w3cpull** is a tool for pulling data from IBM w3 Connections.
+
+---
 
 ## Description
-**W3Cpull** is an application for pulling data from IBM W3 Connections.
 
-### Environment
-* Language: Python3
+Since w3 Connections does not allow exporting data and does not have a REST API, it was decided to go from the front side and use Selenium. This tool allows you to download wiki pages and related files from the community and sub-communities. As a result, you get a local copy of the community content (currently only wiki content) with the original structure.
+
+---
+
+## Environment
+* Languages: Python
 * Frameworks: Selenium
 * Interface: CLI
-* Supported OS: Linux, OS X (not tested yet)
+* Supported OS: Linux, OS X
+
+---
 
 ## Installation
 
- 1. pip install w3cpull
+**Requirements:**
+
+ * Python (>=3.6)
+ * Browser (Chrome / Firefox)
+
+**Linux:**
+~~~
+ $ pip install w3cpull
+~~~
+
+**OS X:**
+~~~
+ $ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+ $ python3 get-pip.py w3cpull
+~~~
+
+---
 
 ## Usage
 
@@ -33,8 +58,15 @@ Options:
     -v, --version                   Show the version.
 ```
 
+---
+
 ## Additional info
->The app is currently under development. The app may contain errors. Use at your own risk.
+>The app is currently under development. The app may contain bugs. **Use at your own risk**.
+
+### Known issues
+
+* The Chrome browser in non-visual mode does not allow you to log in automatically.
+---
 
 ## Contributing
 
@@ -42,7 +74,9 @@ Options:
 2.  Create your feature branch:  `git checkout -b my-new-feature`
 3.  Commit your changes:  `git commit -am 'Add some feature'`
 4.  Push to the branch:  `git push origin my-new-feature`
-5.  Submit a pull request :D
+5.  Submit a pull request
+
+---
 
 ## License
 The MIT License (MIT)
